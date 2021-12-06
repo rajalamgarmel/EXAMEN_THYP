@@ -46,7 +46,7 @@
             .append('p').text((d) =>  d["o:title"])
 	    .append('img')
             .attr('id', (d, i) => 'imgCard' + d["o:id"])
-            .attr('class', 'center card-img-top')
+            .attr('class', 'card-img-top')
             .attr('src', (d) => {
                 d3.json(d["o:media"][0]["@id"], function (error, results) {
                     if (error) throw error;
