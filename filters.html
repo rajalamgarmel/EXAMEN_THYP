@@ -29,44 +29,40 @@
 
 </div>
 <script>
-     var data; 
-     showSujets();
-    function showSujets()
+   var data; 
+   let url ='https://polemika.univ-paris8.fr/omk/api/items?item_set_id=2';   
+   showSujets(url);
+	
+    function showSujets(url)
     {
-        var tab=[];
-        let url ='https://polemika.univ-paris8.fr/omk/api/items?item_set_id=2';
-         
-    var q = d3.queue()
+        var tab=[];             
+        var q = d3.queue()
         .defer(d3.json, url)
         .awaitAll(function(error, results) {
             if (error) throw error;
-            data=results[0];
-
+            data=results;
             var liste= d3.select('#liste').data(data);
         
-  
-        if(!tab.includes(d['dcterms:subject']['@value']))
-          {
-               tab.push(d['dcterms:subject']['@value']);
-               liste.append('option')
-               .attr('value',d['dcterms:subject']['@value'])
-               .text(d['dcterms:subject']['@value']);
-           }
-               
-
-
-
-
-        });
+        data[0].forEach(function(d, j){
+        if(!tab.includes(d['dcterms:subject'][0]['@value']))
+        {
+         tab.push(d['dcterms:subject'][0]['@value']);
+         liste.append('option')
+        .attr('value',d['dcterms:subject'][0]['@value'])
+        .text(d['dcterms:subject'][0]['@value']);
+        }
+          
+            });
+	});
     }
+	
     function showFiltreItems()
     {
       var liste=document.getElementById('liste');
       items=data[0].filter(function(d){return d['dcterms:subject'][0]['@value'] == liste.value;});
          showItems(items);
-
-
     }
+	
     function showItems(data)
     {
 
